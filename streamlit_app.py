@@ -179,7 +179,7 @@ with tab1:
             COUNT(CASE WHEN evolucao ILIKE 'Cura' THEN 1 END)                  AS total_curados,
             COUNT(CASE WHEN ficou_internado = 'Sim' THEN 1 END)                AS total_internados,
             ROUND(AVG(CASE WHEN classificacao='Confirmados'
-                      THEN NULLIF(TRIM(idade_na_notificacao),'')::numeric END),1) AS media_idade,
+                      THEN NULLIF(regexp_replace(idade_na_notificacao, '[^0-9].*$', ''), '')::numeric END),1) AS media_idade,
             ROUND(
                 COUNT(CASE WHEN evolucao ILIKE '%bito%' THEN 1 END)::numeric
                 / NULLIF(COUNT(CASE WHEN classificacao='Confirmados' THEN 1 END),0) * 100
